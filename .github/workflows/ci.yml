@@ -1,0 +1,42 @@
+# Build + test on every push and pull request. Matches the house `Integrate` pattern
+# (holepunchto/actions/node-base for setup, bare-base where Bare itself is exercised) — see
+# index-encoder/integrate.yml and @holepunchto/hyperdiscovery/ci.yml.
+#
+# Ubuntu only, deliberately: the suites are shell-driven (`bash test/run-all.sh`) and the build
+# starts with `rm -rf dist`, neither of which runs on the windows-latest leg some repos matrix over.
+
+name: Integrate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: holepunchto/actions/node-base@v1
+      - run: npm run build
+      # The published artifact is what consumers get, so assert it packs before anything is tagged.
+      - run: npm pack --dry-run
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    name: Test
+    steps:
+      - uses: holepunchto/actions/bare-base@v1
+      - run: npm run build
+      - run: npm test
+
+  security:
+    runs-on: ubuntu-latest
+    name: Security
+    steps:
+      - uses: holepunchto/actions/security-base@v1

@@ -1,0 +1,100 @@
+{
+  "name": "hrpc-inspector-probe",
+  "version": "0.1.0",
+  "description": "L1 transport taps and L2 collector for the hrpc inspector: WebRTC/WebSocket/Hyperswarm taps, ring buffer, correlator, sampler, batch flusher, central redactor, and a hybrid logical clock for the multi-peer timeline.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./core/index.ts",
+  "exports": {
+    ".": {
+      "types": "./core/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./sink": {
+      "types": "./src/sink.ts",
+      "default": "./dist/sink.js"
+    },
+    "./core/sink": {
+      "types": "./core/sink.ts",
+      "default": "./dist/core-sink.js"
+    },
+    "./flush": {
+      "types": "./core/flush.ts",
+      "default": "./dist/flush.js"
+    },
+    "./redactor": {
+      "types": "./core/redactor.ts",
+      "default": "./dist/redactor.js"
+    },
+    "./correlator": {
+      "types": "./core/correlator.ts",
+      "default": "./dist/correlator.js"
+    },
+    "./ring-buffer": {
+      "types": "./core/ring-buffer.ts",
+      "default": "./dist/ring-buffer.js"
+    },
+    "./sampler": {
+      "types": "./core/sampler.ts",
+      "default": "./dist/sampler.js"
+    },
+    "./clock": {
+      "types": "./clock/index.ts",
+      "default": "./dist/clock.js"
+    },
+    "./adapters/webrtc": {
+      "types": "./adapters/webrtc.ts",
+      "default": "./dist/adapters-webrtc.js"
+    },
+    "./adapters/websocket": {
+      "types": "./adapters/websocket.ts",
+      "default": "./dist/adapters-websocket.js"
+    },
+    "./adapters/hyperswarm": {
+      "types": "./adapters/hyperswarm.ts",
+      "default": "./dist/adapters-hyperswarm.js"
+    },
+    "./exporters/hyperswarm": {
+      "types": "./exporters/hyperswarm.ts",
+      "default": "./dist/exporters-hyperswarm.js"
+    },
+    "./transport/framing": {
+      "types": "./transport/framing.ts",
+      "default": "./dist/framing.js"
+    },
+    "./transport/capabilities": {
+      "types": "./transport/capabilities.ts",
+      "default": "./dist/capabilities.js"
+    },
+    "./transport/contract": {
+      "types": "./transport/contract.ts",
+      "default": "./dist/contract.js"
+    }
+  },
+  "files": [
+    "dist",
+    "core",
+    "clock",
+    "adapters",
+    "transport",
+    "exporters",
+    "src",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && esbuild index=core/index.ts sink=src/sink.ts core-sink=core/sink.ts flush=core/flush.ts redactor=core/redactor.ts correlator=core/correlator.ts ring-buffer=core/ring-buffer.ts sampler=core/sampler.ts clock=clock/index.ts adapters-webrtc=adapters/webrtc.ts adapters-websocket=adapters/websocket.ts adapters-hyperswarm=adapters/hyperswarm.ts exporters-hyperswarm=exporters/hyperswarm.ts framing=transport/framing.ts capabilities=transport/capabilities.ts contract=transport/contract.ts --bundle --splitting --format=esm --platform=neutral --external:hrpc-inspector-protocol --outdir=dist",
+    "prepare": "npm run build",
+    "test": "bash test/run-all.sh"
+  },
+  "repository": "git+https://github.com/holepunchto/hrpc-inspector-probe.git",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "dependencies": {
+    "hrpc-inspector-protocol": "^0.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
