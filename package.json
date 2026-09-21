@@ -92,7 +92,7 @@
   "license": "Apache-2.0",
   "sideEffects": false,
   "dependencies": {
-    "hrpc-inspector-protocol": "git+https://github.com/holepunchto/hrpc-inspector-protocol.git#v0.1.0"
+    "hrpc-inspector-protocol": "^0.1.0"
   },
   "devDependencies": {
     "esbuild": "^0.28.2"
