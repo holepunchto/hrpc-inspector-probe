@@ -18,5 +18,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["core", "clock", "src", "adapters"]
+  // native/ is excluded: it imports react-native, which is the host app's dependency, not
+  // ours. Stubbing those types would check this code against an invention rather than the
+  // real module. It is RN glue and is not part of `exports`.
+  "include": ["core", "clock", "src", "adapters", "exporters", "transport"]
 }

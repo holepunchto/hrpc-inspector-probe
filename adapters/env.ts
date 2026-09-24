@@ -50,7 +50,9 @@ export function isProbeDisabledByBuild(): boolean {
     /* never throw from the probe */
   }
   try {
-    if (typeof process !== 'undefined' && process?.env?.NODE_ENV === 'production') return true;
+    // via globalThis: `process` is absent in Bare and browsers, so it must not be a bare global
+    const proc = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
+    if (proc?.env?.NODE_ENV === 'production') return true;
   } catch {
     /* never throw from the probe */
   }

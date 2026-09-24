@@ -60,7 +60,7 @@ export interface Framer {
  * complete frames back to back.
  */
 export class StreamFramer implements Framer {
-  private buffer = new Uint8Array(0);
+  private buffer: Uint8Array = new Uint8Array(0);
   private readonly onMessage: (bytes: Uint8Array) => void;
 
   constructor(onMessage: (bytes: Uint8Array) => void) {

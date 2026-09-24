@@ -1,73 +1,73 @@
 {
   "name": "hrpc-inspector-probe",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "L1 transport taps and L2 collector for the hrpc inspector: WebRTC/WebSocket/Hyperswarm taps, ring buffer, correlator, sampler, batch flusher, central redactor, and a hybrid logical clock for the multi-peer timeline.",
   "type": "module",
   "main": "./dist/index.js",
-  "types": "./core/index.ts",
+  "types": "./dist/core/index.d.ts",
   "exports": {
     ".": {
-      "types": "./core/index.ts",
+      "types": "./dist/core/index.d.ts",
       "default": "./dist/index.js"
     },
     "./sink": {
-      "types": "./src/sink.ts",
+      "types": "./dist/src/sink.d.ts",
       "default": "./dist/sink.js"
     },
     "./core/sink": {
-      "types": "./core/sink.ts",
+      "types": "./dist/core/sink.d.ts",
       "default": "./dist/core-sink.js"
     },
     "./flush": {
-      "types": "./core/flush.ts",
+      "types": "./dist/core/flush.d.ts",
       "default": "./dist/flush.js"
     },
     "./redactor": {
-      "types": "./core/redactor.ts",
+      "types": "./dist/core/redactor.d.ts",
       "default": "./dist/redactor.js"
     },
     "./correlator": {
-      "types": "./core/correlator.ts",
+      "types": "./dist/core/correlator.d.ts",
       "default": "./dist/correlator.js"
     },
     "./ring-buffer": {
-      "types": "./core/ring-buffer.ts",
+      "types": "./dist/core/ring-buffer.d.ts",
       "default": "./dist/ring-buffer.js"
     },
     "./sampler": {
-      "types": "./core/sampler.ts",
+      "types": "./dist/core/sampler.d.ts",
       "default": "./dist/sampler.js"
     },
     "./clock": {
-      "types": "./clock/index.ts",
+      "types": "./dist/clock/index.d.ts",
       "default": "./dist/clock.js"
     },
     "./adapters/webrtc": {
-      "types": "./adapters/webrtc.ts",
+      "types": "./dist/adapters/webrtc.d.ts",
       "default": "./dist/adapters-webrtc.js"
     },
     "./adapters/websocket": {
-      "types": "./adapters/websocket.ts",
+      "types": "./dist/adapters/websocket.d.ts",
       "default": "./dist/adapters-websocket.js"
     },
     "./adapters/hyperswarm": {
-      "types": "./adapters/hyperswarm.ts",
+      "types": "./dist/adapters/hyperswarm.d.ts",
       "default": "./dist/adapters-hyperswarm.js"
     },
     "./exporters/hyperswarm": {
-      "types": "./exporters/hyperswarm.ts",
+      "types": "./dist/exporters/hyperswarm.d.ts",
       "default": "./dist/exporters-hyperswarm.js"
     },
     "./transport/framing": {
-      "types": "./transport/framing.ts",
+      "types": "./dist/transport/framing.d.ts",
       "default": "./dist/framing.js"
     },
     "./transport/capabilities": {
-      "types": "./transport/capabilities.ts",
+      "types": "./dist/transport/capabilities.d.ts",
       "default": "./dist/capabilities.js"
     },
     "./transport/contract": {
-      "types": "./transport/contract.ts",
+      "types": "./dist/transport/contract.d.ts",
       "default": "./dist/contract.js"
     }
   },
@@ -81,20 +81,23 @@
     "src",
     "LICENSE",
     "NOTICE",
-    "README.md"
+    "README.md",
+    "scripts"
   ],
   "scripts": {
-    "build": "rm -rf dist && esbuild index=core/index.ts sink=src/sink.ts core-sink=core/sink.ts flush=core/flush.ts redactor=core/redactor.ts correlator=core/correlator.ts ring-buffer=core/ring-buffer.ts sampler=core/sampler.ts clock=clock/index.ts adapters-webrtc=adapters/webrtc.ts adapters-websocket=adapters/websocket.ts adapters-hyperswarm=adapters/hyperswarm.ts exporters-hyperswarm=exporters/hyperswarm.ts framing=transport/framing.ts capabilities=transport/capabilities.ts contract=transport/contract.ts --bundle --splitting --format=esm --platform=neutral --external:hrpc-inspector-protocol --outdir=dist",
+    "build": "rm -rf dist && esbuild index=core/index.ts sink=src/sink.ts core-sink=core/sink.ts flush=core/flush.ts redactor=core/redactor.ts correlator=core/correlator.ts ring-buffer=core/ring-buffer.ts sampler=core/sampler.ts clock=clock/index.ts adapters-webrtc=adapters/webrtc.ts adapters-websocket=adapters/websocket.ts adapters-hyperswarm=adapters/hyperswarm.ts exporters-hyperswarm=exporters/hyperswarm.ts framing=transport/framing.ts capabilities=transport/capabilities.ts contract=transport/contract.ts --bundle --splitting --format=esm --platform=neutral --external:hrpc-inspector-protocol --outdir=dist && npm run build:types",
     "prepare": "npm run build",
-    "test": "bash test/run-all.sh"
+    "test": "bash test/run-all.sh",
+    "build:types": "tsc -p tsconfig.build.json && node scripts/rewrite-dts-specifiers.mjs dist"
   },
   "repository": "git+https://github.com/holepunchto/hrpc-inspector-probe.git",
   "license": "Apache-2.0",
   "sideEffects": false,
   "dependencies": {
-    "hrpc-inspector-protocol": "^0.1.0"
+    "hrpc-inspector-protocol": "^0.1.1"
   },
   "devDependencies": {
-    "esbuild": "^0.28.2"
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
   }
 }
